@@ -1,10 +1,27 @@
 
-// build grid here ----------------------------------------------------------------
-function buildGrid(){
+//function here ----------------------------------------------------------------
+function buildGrid(str){
     for(var i=1;i<101;i++){
         let newSquare = `<div id="${i}" class="square"></div>`
-        $('#mainGrid').append(newSquare);
+        $(str).append(newSquare);
     }
 }
+function hidePlayerGrid(){
+    $('#playerGrid').css('display', 'none');
+}
+function showPlayerGrid(){
+    $('#playerGrid').css('display', '');
+}
+function creatShip(num){
+    
+}
 
-buildGrid()
+// building grid called here ------------------------------------
+buildGrid("#mainGrid")
+buildGrid("#playerGrid")
+hidePlayerGrid()
+showPlayerGrid()
+hidePlayerGrid()
+
+//text here -----------------------------------------
+$('#text').text('Click ship, then hover over grid to place')

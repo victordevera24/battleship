@@ -1,26 +1,48 @@
 body{
-    display: grid;
     padding: 50px;
 }
-
 h1{
     text-align: center;
     margin-bottom: 40px;
 }
-
+.playArea{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 #mainGrid{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    height: 355px;
-    width: 355px;
+    height: 605px;
+    width: 605px;
     background-color: grey;
     padding-left: 5px;
     padding-top: 5px;
+    margin-right: 0px;
 }
-
-.square{
+#mainGrid .square{
     display: inline-block;
-    height: 30px;
-    width: 30px;
+    height: 55px;
+    width: 55px;
     background-color: blue;
+}
+#playerGrid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    height: 305px;
+    width: 305px;
+    background-color: grey;
+    padding-left: 5px;
+    padding-top: 5px;
+    margin-left: 50px;
+}
+#playerGrid .square{
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    background-color: lightgray;
+}
+#text{
+    text-align: center;
+    margin-top: 20px;
 }
