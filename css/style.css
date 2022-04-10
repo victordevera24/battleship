@@ -76,6 +76,6 @@ h1{
 .shipSquare {
     width: 48px;
     height: 48px;
-    background-color: black;
+    background-color: lightgray;
     margin-right: 3px;
 }

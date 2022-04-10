@@ -6,10 +6,10 @@ function buildGrid(str){
         $(str).append(newSquare);
     }
 }
-function hidePlayerGrid(){
+function togglePlayerGrid(){
     $('#playerGrid').toggle();
 }
-function hideChooseShip(){
+function toggleChooseShip(){
     $('#chooseShip').toggle();
 }
 function startButtonText(){
@@ -23,28 +23,36 @@ function createShip(num){
     let makingShip = ".ship"+num
     $('#chooseShip').append(newShip);
     for (let i = 0; i < num; i++) {
-        $(makingShip).append("<div class='shipSquare'></div>");
+        $(makingShip).append(`<div id='pieceOf${num}' class='shipSquare'></div>`);
     }
+    // click event for ship divs here -------------------------------------------------
+    $(".ship").click(function(evt){
+        let ship = $(evt.target).parents(".ship").attr("id");
+        $('#'+ship).css("visibility", "hidden");
+    })
 }
 function createSecond3LongShip(){
     let newShip = `<div id="second3Ship" class="ship 3 ship3"></div>`;
     $('#chooseShip').append(newShip);
     for (let i = 0; i < 3; i++) {
-        $('#second3Ship').append("<div class='shipSquare'></div>");
+        $('#second3Ship').append("<div id='pieceOfSecond3' class='shipSquare'></div>");
     }
-
 }
 
-// start game    ------------------------------------
+// start game    -------------------------------------------------------
 startButtonText();
 buildGrid("#mainGrid");
 buildGrid("#playerGrid");
-hidePlayerGrid();
-hideChooseShip();
+togglePlayerGrid();
+toggleChooseShip();
+
+// variables here -----------------------------------------------------------------
+let numberOfShipsToPlace = 5;
+let numberOfEnemyShipsRemaining = 5;
 
 
+//text here ------------------------------------------------------------
 
-//text here -----------------------------------------
 
 
 
@@ -52,7 +60,7 @@ hideChooseShip();
 //events -------------------------------------------------------
 $('.startGame').click(function(evt){
     console.log('clicked start game');
-    hideChooseShip();
+    toggleChooseShip();
     placeShipsText();
     createShip(2);
     createShip(3);
@@ -60,3 +68,6 @@ $('.startGame').click(function(evt){
     createShip(4);
     createShip(5);
 })
+
+
+
