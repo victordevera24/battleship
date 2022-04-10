@@ -46,3 +46,36 @@ h1{
     text-align: center;
     margin-top: 30px;
 }
+#chooseShip{
+    display: flex;
+    border: 1px solid;
+    width: 1000px;
+    height: 150px;
+    margin-top: 10px;
+    margin: auto;
+}
+.ship{
+    margin: auto;
+    display: flex;
+    background-color: darkgrey;
+    height: 54px;
+    padding: 3px 0px 3px 3px;
+}
+.ship2 {
+    width: 105px;
+}
+.ship3 {
+    width: 150px;
+}
+.ship4 {
+    width: 200px;
+}
+.ship5 {
+    width: 250px;
+}
+.shipSquare {
+    width: 48px;
+    height: 48px;
+    background-color: black;
+    margin-right: 3px;
+}
