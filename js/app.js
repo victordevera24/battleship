@@ -1,10 +1,20 @@
-
+// variables here -----------------------------------------------------------------
+let numberOfShipsToPlace = 5;
+let numberOfEnemyShipsRemaining = 5;
+let currentShipClicked = null;
+let currentShipVertical = false;
+let holdingShip = false;
 //function here ----------------------------------------------------------------
 function buildGrid(str){
     for(var i=1;i<101;i++){
         let newSquare = `<div id="${i}" class="square"></div>`;
         $(str).append(newSquare);
     }
+    // if(!currentShipClicked===null){
+    //     $('.square').hover(function(evt){
+    //         console.log(evt.target.id)
+    //     })
+    // }
 }
 function togglePlayerGrid(){
     $('#playerGrid').toggle();
@@ -29,6 +39,9 @@ function createShip(num){
     $(".ship").click(function(evt){
         let ship = $(evt.target).parents(".ship").attr("id");
         $('#'+ship).css("visibility", "hidden");
+        currentShipClicked = ship;
+        holdingShip = true;
+        console.log(holdingShip);
     })
 }
 function createSecond3LongShip(){
@@ -38,24 +51,13 @@ function createSecond3LongShip(){
         $('#second3Ship').append("<div id='pieceOfSecond3' class='shipSquare'></div>");
     }
 }
-
 // start game    -------------------------------------------------------
 startButtonText();
 buildGrid("#mainGrid");
 buildGrid("#playerGrid");
 togglePlayerGrid();
 toggleChooseShip();
-
-// variables here -----------------------------------------------------------------
-let numberOfShipsToPlace = 5;
-let numberOfEnemyShipsRemaining = 5;
-
-
 //text here ------------------------------------------------------------
-
-
-
-
 
 //events -------------------------------------------------------
 $('.startGame').click(function(evt){
@@ -68,6 +70,13 @@ $('.startGame').click(function(evt){
     createShip(4);
     createShip(5);
 })
-
-
-
+$('.square').hover(function(evt){
+    let square = evt.target
+    if(holdingShip===true){
+        $(square).css('background-color','purple')
+    }
+    },function(evt){
+        let square = evt.target
+        $(square).css('background-color','blue')
+    }
+)
