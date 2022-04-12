@@ -7,6 +7,9 @@ let holdingShip = false;
 let playerMap = {};
 let computerMap = {};
 let attackPhase = false;
+let playerTurn = true;
+let computerShipPartsHit = 0;
+let playerShipPartsHit = 0;
 // start game    -------------------------------------------------------
 startButtonText();
 buildGrid("#mainGrid");
@@ -87,54 +90,128 @@ function fillPlayerGrid(){
     }
 }
 function randomComputerShips(){
-    let firstShipStart = Math.floor(Math.random()*100)+1;
-    while(firstShipStart.toString().endsWith('1')){
-        firstShipStart = Math.floor(Math.random()*100)+1;
+    let firstShipOrientation = Math.round(Math.random());
+    if(firstShipOrientation===0){
+        let firstShipStart = Math.floor(Math.random()*100)+1;
+        while(firstShipStart.toString().endsWith('1')){
+            firstShipStart = Math.floor(Math.random()*100)+1;
+        }
+        computerMap[firstShipStart] = 1;
+        computerMap[firstShipStart-1] = 1;
+    } else {
+        let firstShipStart = Math.floor(Math.random()*100)+1;
+        while(firstShipStart<11){
+            firstShipStart = Math.floor(Math.random()*100)+1;
+        }
+        computerMap[firstShipStart] = 1;
+        computerMap[firstShipStart-10] = 1;
     }
-    computerMap[firstShipStart] = 1;
-    computerMap[firstShipStart-1] = 1;
-    let secondShipStart = Math.floor(Math.random()*100)+1;
-    for(var i=0;i<3;i++){
-        while(computerMap[secondShipStart-i] === 1 ||secondShipStart.toString().endsWith('1')||secondShipStart.toString().endsWith('2')){
+    let secondShipOrientation = Math.round(Math.random());
+    if(secondShipOrientation===0){
+        let secondShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[secondShipStart] === 1||computerMap[secondShipStart-1] === 1||computerMap[secondShipStart-2] === 1||secondShipStart.toString().endsWith('1')||secondShipStart.toString().endsWith('2')){
             secondShipStart = Math.floor(Math.random()*100)+1;
         }
+        for(var i=0;i<3;i++){
+            computerMap[secondShipStart-i] = 1;
+        }
+    } else {
+        let secondShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[secondShipStart] === 1||computerMap[secondShipStart-10] === 1||computerMap[secondShipStart-20] === 1||secondShipStart<21){
+            secondShipStart = Math.floor(Math.random()*100)+1;
+        }
+        for(var i=0;i<21;i+=10){
+            computerMap[secondShipStart-i] = 1;
+        }
     }
-    for(var i=0;i<3;i++){
-        computerMap[secondShipStart-i] = 1;
-    }
-    let thirdShipStart = Math.floor(Math.random()*100)+1;
-    for(var i=0;i<3;i++){
-        while(computerMap[thirdShipStart-i] === 1||thirdShipStart.toString().endsWith('1')||thirdShipStart.toString().endsWith('2')){
+    let thirdShipOrientation = Math.round(Math.random());
+    if(thirdShipOrientation===0){
+        let thirdShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[thirdShipStart] === 1||computerMap[thirdShipStart-1] === 1||computerMap[thirdShipStart-2] === 1||thirdShipStart.toString().endsWith('1')||thirdShipStart.toString().endsWith('2')){
             thirdShipStart = Math.floor(Math.random()*100)+1;
         }
+        for(var i=0;i<3;i++){
+            computerMap[thirdShipStart-i] = 1;
+        }
+    } else {
+        let thirdShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[thirdShipStart] === 1||computerMap[thirdShipStart-10] === 1||computerMap[thirdShipStart-20] === 1||thirdShipStart<21){
+            thirdShipStart = Math.floor(Math.random()*100)+1;
+        }
+        for(var i=0;i<21;i+=10){
+            computerMap[thirdShipStart-i] = 1;
+        }
     }
-    for(var i=0;i<3;i++){
-        computerMap[thirdShipStart-i] = 1;
-    }
-    let forthShipStart = Math.floor(Math.random()*100)+1;
-    for(var i=0;i<4;i++){
-        while(computerMap[forthShipStart-i] === 1||forthShipStart.toString().endsWith('1')||forthShipStart.toString().endsWith('2')||forthShipStart.toString().endsWith('3')){
+    let forthShipOrientation = Math.round(Math.random());
+    if(forthShipOrientation===0){
+        let forthShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[forthShipStart] === 1||computerMap[forthShipStart-1] === 1||computerMap[forthShipStart-2] === 1||computerMap[forthShipStart-3] === 1||forthShipStart.toString().endsWith('1')||forthShipStart.toString().endsWith('2')||forthShipStart.toString().endsWith('3')){
             forthShipStart = Math.floor(Math.random()*100)+1;
         }
+        for(var i=0;i<4;i++){
+            computerMap[forthShipStart-i] = 1;
+        }
+    } else {
+        let forthShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[forthShipStart] === 1||computerMap[forthShipStart-10] === 10||computerMap[forthShipStart-20] === 1||computerMap[forthShipStart-30] === 1||forthShipStart<31){
+            forthShipStart = Math.floor(Math.random()*100)+1;
+        }
+        for(var i=0;i<31;i+=10){
+            computerMap[forthShipStart-i] = 1;
+        }
     }
-    for(var i=0;i<4;i++){
-        computerMap[forthShipStart-i] = 1;
-    }
-    let fifthShipStart = Math.floor(Math.random()*100)+1;
-    for(var i=0;i<5;i++){
-        while(computerMap[fifthShipStart-i] === 1||fifthShipStart.toString().endsWith('1')||fifthShipStart.toString().endsWith('2')||fifthShipStart.toString().endsWith('3')||fifthShipStart.toString().endsWith('4')){
+    let fifthShipOrientation = Math.round(Math.random());
+    if(fifthShipOrientation===0){
+        let fifthShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[fifthShipStart] === 1||computerMap[fifthShipStart-1] === 1||computerMap[fifthShipStart-2] === 1||computerMap[fifthShipStart-3] === 1||computerMap[fifthShipStart-4] === 1||fifthShipStart.toString().endsWith('1')||fifthShipStart.toString().endsWith('2')||fifthShipStart.toString().endsWith('3')||fifthShipStart.toString().endsWith('4')){
             fifthShipStart = Math.floor(Math.random()*100)+1;
         }
-    }
-    for(var i=0;i<5;i++){
-        computerMap[fifthShipStart-i] = 1;
-    }
-    console.log(computerMap)
-    for(const box in computerMap){
-        if(computerMap[box]===1){
-            $('#mainGrid #'+box).css('background-color','green')
+        for(var i=0;i<5;i++){
+            computerMap[fifthShipStart-i] = 1;
+        }
+    } else {
+        let fifthShipStart = Math.floor(Math.random()*100)+1;
+        while(computerMap[fifthShipStart] === 1||computerMap[fifthShipStart-10] === 1||computerMap[fifthShipStart-20] === 1||computerMap[fifthShipStart-30] === 1||computerMap[fifthShipStart-40] === 1||fifthShipStart<41){
+            fifthShipStart = Math.floor(Math.random()*100)+1;
+        }
+        for(var i=0;i<41;i+=10){
+            computerMap[fifthShipStart-i] = 1;
         }
     }
+}
+function checkIfWinner(){
+    if(computerShipPartsHit===17){
+        $('#text').text('Winner winner chiken dinner')
+        attackPhase=false;
+    }
+}
+function checkIfCompWinner(){
+    if(playerShipPartsHit===17){
+        $('#text').text('Got beat by Computer')
+        attackPhase=false;
+    }
+}
+function computerTurn(){
+    $('#text').text('Computers turn')
+    let computerGuess = Math.round(Math.random()*100)+1;
+    while(playerMap[computerGuess]===6){
+        computerGuess = Math.round(Math.random()*100)+1;
+    }
+    console.log(computerGuess);
+    if(playerMap[computerGuess]===1){
+        console.log('in hit if');
+        $('#playerGrid #'+computerGuess).css('background-color','red');
+        playerShipPartsHit++;
+        playerMap[computerGuess]=6;
+        checkIfCompWinner();
+        computerTurn();
+    } else {
+        console.log('in else');
+        $('#playerGrid #'+computerGuess).css('background-color','pink');
+        playerMap[computerGuess]=6;
+    }
+    playerTurn=true;
+    console.log('done comp');
 }
 
 //text here ------------------------------------------------------------
@@ -203,7 +280,6 @@ $('.square').hover(function(evt){
     }
         }, function(evt){
             if(numberOfShipsToPlace>0){
-
                 let square = evt.target
                 $(square).css('background-color','blue')
                 markPlayerGrid()
@@ -289,11 +365,22 @@ $('.square').click(function(evt){
                 holdingShip=false;
                 markPlayerGrid();
                 numberOfShipsToPlace--;
-                console.log(numberOfShipsToPlace)
                 allShipsPlaced();
             }
         }   
-    } else if(attackPhase===true){
-        console.log('here')
+    } else if(attackPhase===true&&playerTurn===true){
+        let box = evt.target.id;
+        if(computerMap[box]!==6){
+            if(computerMap[box]===1){
+                $('#'+box).css('background-color', 'red');
+                computerShipPartsHit++;
+                computerMap[box]=6;
+                checkIfWinner();
+            } else {
+                $('#'+box).css('background-color', 'lightgrey');
+                playerTurn=false;
+                computerTurn();
+            }
+        }
     }
 })
