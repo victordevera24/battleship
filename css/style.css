@@ -41,6 +41,7 @@ h1{
     height: 25px;
     width: 25px;
     background-color: lightgray;
+    text-align: center;
 }
 #text{
     text-align: center;
@@ -48,9 +49,8 @@ h1{
 }
 #chooseShip{
     display: flex;
-    border: 1px solid;
-    width: 1000px;
-    height: 150px;
+    /* width: 900px; */
+    /* height: 150px; */
     margin-top: 10px;
     margin: auto;
 }
@@ -61,21 +61,52 @@ h1{
     height: 54px;
     padding: 3px 0px 3px 3px;
 }
+.verticalShip{
+    margin: auto;
+    background-color: darkgrey;
+    padding: 3px 0px 3px 3px;
+}
 .ship2 {
     width: 105px;
+}
+.verticalShip2{
+    width: 54px;
+    height: 105px;
 }
 .ship3 {
     width: 150px;
 }
+.verticalShip3{
+    width: 54px;
+    height: 156px;
+
+}
+.verticalShip23{
+    width: 54px;
+    height: 156px;
+}
 .ship4 {
     width: 200px;
 }
+.verticalShip4{
+    width: 54px;
+    height: 207px;
+}
 .ship5 {
     width: 250px;
+}
+.verticalShip5{
+    width: 54px;
+    height: 258px;
 }
 .shipSquare {
     width: 48px;
     height: 48px;
     background-color: lightgray;
     margin-right: 3px;
+    margin-bottom: 3px;
+}
+.eachShip{
+    margin: auto;
+    text-align: center;
 }

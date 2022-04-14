@@ -11,6 +11,12 @@ let playerTurn = true;
 let computerShipPartsHit = 0;
 let playerShipPartsHit = 0;
 let computerTry = 0;
+let ship2Horizontal = true;
+let ship3Horizontal = true;
+let secondShip3Horizontal = true;
+let ship4Horizontal = true;
+let ship5Horizontal = true;
+
 // start game    -------------------------------------------------------
 startButtonText();
 buildGrid("#mainGrid");
@@ -38,25 +44,59 @@ function placeShipsText(){
     $('#text').text("Place ships");
 }
 function createShip(num){
-    let newShip = `<div id="ship${num}" class="ship ${num} ship${num}"></div>`;
+    let newShip = `<div id="afterThis${num}"class='eachShip'><div id="ship${num}" class="ship ${num} ship${num}"></div><p>OR</p><div id="verticalShip${num}" class="verticalShip vertical${num} verticalShip${num}"></div></div>`;
     let makingShip = ".ship"+num
+    let makingVerticalShip = ".verticalShip"+num
     $('#chooseShip').append(newShip);
     for (let i = 0; i < num; i++) {
         $(makingShip).append(`<div id='pieceOf${num}' class='shipSquare'></div>`);
+        $(makingVerticalShip).append(`<div id='pieceOfVertical${num}' class='shipSquare'></div>`);
     }
     // click event for ship divs here -------------------------------------------------
     $(".ship").click(function(evt){
         let ship = $(evt.target).parents(".ship").attr("id");
+        if(ship=="ship2"){
+            $('#verticalShip2').css('visibility', 'hidden');
+        } else if(ship=="ship3"){
+            $('#verticalShip3').css('visibility', 'hidden');
+        } else if(ship=="secondShip3"){
+            $('#verticalSecondShip3').css('visibility', 'hidden');
+        } else if(ship=="ship4"){
+            $('#verticalShip4').css('visibility', 'hidden');
+        } else if(ship=="ship5"){
+            $('#verticalShip5').css('visibility', 'hidden');
+        }
         $('#'+ship).css("visibility", "hidden");
         currentShipClicked = ship;
         holdingShip = true;
+        console.log(currentShipClicked)
+
+    })
+    $('.verticalShip').click(function(evt){
+        let ship = $(evt.target).parents(".verticalShip").attr("id");
+        if(ship=="verticalShip2"){
+            $('#ship2').css('visibility', 'hidden');
+        } else if(ship=="verticalShip3"){
+            $('#ship3').css('visibility', 'hidden');
+        } else if(ship=="verticalSecondShip3"){
+            $('#secondShip3').css('visibility', 'hidden');
+        } else if(ship=="verticalShip4"){
+            $('#ship4').css('visibility', 'hidden');
+        } else if(ship=="verticalShip5"){
+            $('#ship5').css('visibility', 'hidden');
+        }
+        $('#'+ship).css("visibility", "hidden");
+        currentShipClicked = ship;
+        holdingShip = true;
+        console.log(currentShipClicked)
     })
 }
 function createSecond3LongShip(){
-    let newShip = `<div id="secondShip3" class="ship 3 ship3"></div>`;
+    let newShip = `<div id="afterThis23"class="eachShip"><div id="secondShip3" class="ship 3 ship3"></div><p>OR</p><div id="verticalSecondShip3" class="verticalShip verticalSecond3 verticalShip23"></div></div>`;
     $('#chooseShip').append(newShip);
     for (let i = 0; i < 3; i++) {
         $('#secondShip3').append("<div id='pieceOfSecond3' class='shipSquare'></div>");
+        $("#verticalSecondShip3").append(`<div id='pieceOfVerticalSecond3' class='shipSquare'></div>`);
     }
 }
 function makePlayerMap(){
@@ -75,7 +115,7 @@ function markPlayerGrid(){
 }
 function allShipsPlaced(){
     if(numberOfShipsToPlace===0){
-        $('#text').text('Try to find enemy ships!');
+        $('#text').text('Destroy all enemy ships!');
         togglePlayerGrid();
         toggleChooseShip();
         $('#mainGrid .square').css('background-color','blue');
@@ -182,18 +222,17 @@ function randomComputerShips(){
 }
 function checkIfWinner(){
     if(computerShipPartsHit===17){
-        $('#text').text('Winner winner chiken dinner')
+        $('#text').text('Winner! You defeated Syknet! 🎉').css('font-size','35px').css('color','blue')
         attackPhase=false;
     }
 }
 function checkIfCompWinner(){
     if(playerShipPartsHit===17){
-        $('#text').text('Got beat by Computer')
+        $('#text').text('You should of gone for the head. 🫰').css('font-size','35px').css('color','red')
         attackPhase=false;
     }
 }
 function computerTurn(){
-    $('#text').text('Computers turn')
     let computerGuess = Math.floor(Math.random()*100)+1;
     while(playerMap[computerGuess]===6){
         computerGuess = Math.floor(Math.random()*100)+1;
@@ -210,302 +249,318 @@ function computerTurnAgain(computerGuess){
     console.log('going again')
     if(attackPhase==true){
         if(computerGuess===1){
-            let computerSecondGuess = Math.round(Math.random())
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess+1]===1){
-                    compHit(computerGuess+1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+1);
-                } else if(playerMap[computerGuess+1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+1);
-                }
-            } else if(computerSecondGuess===0){
-                if(playerMap[computerGuess+10]===1){
-                    compHit(computerGuess+10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+10);
-                } else if(playerMap[computerGuess+10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+10);
-                }
-            } else if(computerTry===2){
+            if(computerTry===2){
                 computerTry=0;
                 computerTurn()
+            } else {
+                let computerSecondGuess = Math.round(Math.random())
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess+1]===1){
+                        compHit(computerGuess+1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+1);
+                    } else if(playerMap[computerGuess+1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+1);
+                    }
+                } else if(computerSecondGuess===0){
+                    if(playerMap[computerGuess+10]===1){
+                        compHit(computerGuess+10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+10);
+                    } else if(playerMap[computerGuess+10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+10);
+                    }
+                }
             }
         } else if(computerGuess===10){
-            let computerSecondGuess = Math.round(Math.random())
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess-1]===1){
-                    compHit(computerGuess-1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-1);
-                } else if(playerMap[computerGuess-1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-1);
-                } 
-            } else if(computerSecondGuess===0){
-                if(playerMap[computerGuess+10]===1){
-                    compHit(computerGuess+10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+10);
-                } else if(playerMap[computerGuess+10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess);
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+10);
-                }
-            } else if(computerTry===2){
+            if(computerTry===2){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.round(Math.random())
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess-1]===1){
+                        compHit(computerGuess-1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-1);
+                    } else if(playerMap[computerGuess-1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-1);
+                    } 
+                } else if(computerSecondGuess===0){
+                    if(playerMap[computerGuess+10]===1){
+                        compHit(computerGuess+10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+10);
+                    } else if(playerMap[computerGuess+10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess);
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+10);
+                    }
+                } 
             }
         } else if(computerGuess===91){
-            let computerSecondGuess = Math.round(Math.random())
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess+1]===1){
-                    compHit(computerGuess+1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+1);
-                } else if(playerMap[computerGuess+1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+1);
-                } 
-            } else if(computerSecondGuess===0){
-                if(playerMap[computerGuess-10]===1){
-                    compHit(computerGuess-10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-10);
-                } else if(playerMap[computerGuess-10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess);
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-10);
-                }
-            } else if(computerTry===2){
+            if(computerTry===2){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.round(Math.random())
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess+1]===1){
+                        compHit(computerGuess+1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+1);
+                    } else if(playerMap[computerGuess+1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+1);
+                    } 
+                } else if(computerSecondGuess===0){
+                    if(playerMap[computerGuess-10]===1){
+                        compHit(computerGuess-10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-10);
+                    } else if(playerMap[computerGuess-10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess);
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-10);
+                    }
+                } 
             }
         } else if(computerGuess===100){
-            let computerSecondGuess = Math.round(Math.random())
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess1]===1){
-                    compHit(computerGuess1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess1);
-                } else if(playerMap[computerGuess1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess1);
-                } 
-            } else if(computerSecondGuess===0){
-                if(playerMap[computerGuess-10]===1){
-                    compHit(computerGuess-10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-10);
-                } else if(playerMap[computerGuess-10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess);
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-10);
-                }
-            } else if(computerTry===2){
+            if(computerTry===2){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.round(Math.random())
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess1]===1){
+                        compHit(computerGuess1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess1);
+                    } else if(playerMap[computerGuess1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess1);
+                    } 
+                } else if(computerSecondGuess===0){
+                    if(playerMap[computerGuess-10]===1){
+                        compHit(computerGuess-10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-10);
+                    } else if(playerMap[computerGuess-10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess);
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-10);
+                    }
+                } 
             }
         } else if(computerGuess>1&&computerGuess<10){
-            let computerSecondGuess = Math.floor(Math.random()*3)+1
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess-1]===1){
-                    compHit(computerGuess-1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-1);
-                } else if(playerMap[computerGuess-1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-1);
-                } 
-            } else if (computerSecondGuess===2){
-                if(playerMap[computerGuess+10]===1){
-                    compHit(computerGuess+10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+10);
-                } else if(playerMap[computerGuess+10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+10);
-                }
-            } else if (computerSecondGuess===3){
-                if(playerMap[computerGuess+1]===1){
-                    compHit(computerGuess+1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+1);
-                } else if(playerMap[computerGuess+1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+1);
-                }
-            } else if(computerTry===3){
+            if(computerTry===3){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.floor(Math.random()*3)+1
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess-1]===1){
+                        compHit(computerGuess-1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-1);
+                    } else if(playerMap[computerGuess-1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-1);
+                    } 
+                } else if (computerSecondGuess===2){
+                    if(playerMap[computerGuess+10]===1){
+                        compHit(computerGuess+10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+10);
+                    } else if(playerMap[computerGuess+10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+10);
+                    }
+                } else if (computerSecondGuess===3){
+                    if(playerMap[computerGuess+1]===1){
+                        compHit(computerGuess+1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+1);
+                    } else if(playerMap[computerGuess+1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+1);
+                    }
+                } 
             }
         } else if(computerGuess>91&&computerGuess<100){
-            let computerSecondGuess = Math.floor(Math.random()*3)+1
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess-1]===1){
-                    compHit(computerGuess-1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-1);
-                } else if(playerMap[computerGuess-1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-1);
-                } 
-            } else if (computerSecondGuess===2){
-                if(playerMap[computerGuess-10]===1){
-                    compHit(computerGuess-10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-10);
-                } else if(playerMap[computerGuess-10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-10);
-                }
-            } else if (computerSecondGuess===3){
-                if(playerMap[computerGuess+1]===1){
-                    compHit(computerGuess+1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+1);
-                } else if(playerMap[computerGuess+1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+1);
-                }
-            } else if(computerTry===3){
+            if(computerTry===3){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.floor(Math.random()*3)+1
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess-1]===1){
+                        compHit(computerGuess-1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-1);
+                    } else if(playerMap[computerGuess-1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-1);
+                    } 
+                } else if (computerSecondGuess===2){
+                    if(playerMap[computerGuess-10]===1){
+                        compHit(computerGuess-10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-10);
+                    } else if(playerMap[computerGuess-10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-10);
+                    }
+                } else if (computerSecondGuess===3){
+                    if(playerMap[computerGuess+1]===1){
+                        compHit(computerGuess+1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+1);
+                    } else if(playerMap[computerGuess+1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+1);
+                    }
+                } else if(computerTry===3){
+                    computerTry=0;
+                    computerTurn();
+                }
             }
         } else if(computerGuess.toString().endsWith('1')&&computerGuess!==1&&computerGuess!==91){
-            let computerSecondGuess = Math.floor(Math.random()*3)+1
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess+1]===1){
-                    compHit(computerGuess+1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+1);
-                } else if(playerMap[computerGuess+1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+1);
-                } 
-            } else if (computerSecondGuess===2){
-                if(playerMap[computerGuess-10]===1){
-                    compHit(computerGuess-10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-10);
-                } else if(playerMap[computerGuess-10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-10);
-                }
-            } else if (computerSecondGuess===3){
-                if(playerMap[computerGuess+10]===1){
-                    compHit(computerGuess+10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+10);
-                } else if(playerMap[computerGuess+10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+10);
-                }
-            } else if(computerTry===3){
+            if(computerTry===3){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.floor(Math.random()*3)+1
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess+1]===1){
+                        compHit(computerGuess+1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+1);
+                    } else if(playerMap[computerGuess+1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+1);
+                    } 
+                } else if (computerSecondGuess===2){
+                    if(playerMap[computerGuess-10]===1){
+                        compHit(computerGuess-10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-10);
+                    } else if(playerMap[computerGuess-10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-10);
+                    }
+                } else if (computerSecondGuess===3){
+                    if(playerMap[computerGuess+10]===1){
+                        compHit(computerGuess+10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+10);
+                    } else if(playerMap[computerGuess+10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+10);
+                    }
+                } 
             }
         } else if(computerGuess.toString().endsWith('0')&&computerGuess!==10&&computerGuess!==100){
-            let computerSecondGuess = Math.floor(Math.random()*3)+1
-            if(computerSecondGuess===1){
-                if(playerMap[computerGuess-1]===1){
-                    compHit(computerGuess-1);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-1);
-                } else if(playerMap[computerGuess-1]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-1);
-                } 
-            } else if (computerSecondGuess===2){
-                if(playerMap[computerGuess-10]===1){
-                    compHit(computerGuess-10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess-10);
-                } else if(playerMap[computerGuess-10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess-10);
-                }
-            } else if (computerSecondGuess===3){
-                if(playerMap[computerGuess+10]===1){
-                    compHit(computerGuess+10);
-                    computerTry=0;
-                    computerTurnAgain(computerGuess+10);
-                } else if(playerMap[computerGuess+10]===6){
-                    computerTry++;
-                    computerTurnAgain(computerGuess)
-                } else {
-                    computerTry=0;
-                    compMiss(computerGuess+10);
-                }
-            } else if(computerTry===3){
+            if(computerTry===3){
                 computerTry=0;
                 computerTurn();
+            } else {
+                let computerSecondGuess = Math.floor(Math.random()*3)+1
+                if(computerSecondGuess===1){
+                    if(playerMap[computerGuess-1]===1){
+                        compHit(computerGuess-1);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-1);
+                    } else if(playerMap[computerGuess-1]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-1);
+                    } 
+                } else if (computerSecondGuess===2){
+                    if(playerMap[computerGuess-10]===1){
+                        compHit(computerGuess-10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess-10);
+                    } else if(playerMap[computerGuess-10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess-10);
+                    }
+                } else if (computerSecondGuess===3){
+                    if(playerMap[computerGuess+10]===1){
+                        compHit(computerGuess+10);
+                        computerTry=0;
+                        computerTurnAgain(computerGuess+10);
+                    } else if(playerMap[computerGuess+10]===6){
+                        computerTry++;
+                        computerTurnAgain(computerGuess)
+                    } else {
+                        computerTry=0;
+                        compMiss(computerGuess+10);
+                    }
+                } 
             }
         } else {
             if(computerTry===4){
                 computerTry=0;
-                console.log("we are clear computer try here:" +computerTry)
                 computerTurn();
             } else {
                 let computerSecondGuess = Math.floor(Math.random()*4)+1
-                console.log(computerSecondGuess+" in rest part")
-                console.log(computerTry+" this is computer try")
                 if(computerSecondGuess===1){
                     if(playerMap[computerGuess-1]===1){
                         compHit(computerGuess-1);
@@ -569,9 +624,9 @@ function compHit(computerGuess){
 }
 function compMiss(computerGuess){
     $('#playerGrid #'+computerGuess).css('background-color','pink');
-        playerMap[computerGuess]=6;
+    $('#playerGrid #'+computerGuess).text('X');
+    playerMap[computerGuess]=6;
 }
-
 //text here ------------------------------------------------------------
 
 //events -------------------------------------------------------
@@ -591,14 +646,14 @@ $('.square').hover(function(evt){
         if(holdingShip===true){
             $(square).css('background-color','darkgrey')
             if(currentShipClicked==="ship2"){
-                if(square.id.endsWith('1')){
+                if(square.id.endsWith('1')||playerMap[square.id]===1||playerMap[square.id-1]===1){
                     $(square).css('background-color','red')
                 } else {
                     let shipLength = square.id - 1;
                     $('#'+shipLength).css('background-color','darkgrey')
                 }
             } else if(currentShipClicked==="ship3"){
-                if(square.id.endsWith('2')||square.id.endsWith('1')){
+                if(square.id.endsWith('2')||square.id.endsWith('1')||playerMap[square.id]===1||playerMap[square.id-1]===1||playerMap[square.id-2]===1){
                     $(square).css('background-color','red')
                 } else {
                     for (let i=0;i<3;i++) {
@@ -607,7 +662,7 @@ $('.square').hover(function(evt){
                     }
                 }
             } else if(currentShipClicked==="secondShip3"){
-                if(square.id.endsWith('2')||square.id.endsWith('1')){
+                if(square.id.endsWith('2')||square.id.endsWith('1')||playerMap[square.id]===1||playerMap[square.id-1]===1||playerMap[square.id-2]===1){
                     $(square).css('background-color','red')
                 } else {
                     for (let i=0;i<3;i++) {
@@ -616,7 +671,7 @@ $('.square').hover(function(evt){
                     }
                 }
             } else if(currentShipClicked==="ship4"){
-                if(square.id.endsWith('2')||square.id.endsWith('1')||square.id.endsWith('3')){
+                if(square.id.endsWith('2')||square.id.endsWith('1')||square.id.endsWith('3')||playerMap[square.id]===1||playerMap[square.id-1]===1||playerMap[square.id-2]===1||playerMap[square.id-3]===1){
                     $(square).css('background-color','red')
                 } else {
                     for (let i=0;i<4;i++) {
@@ -625,7 +680,7 @@ $('.square').hover(function(evt){
                     }
                 }
             } else if(currentShipClicked==="ship5"){
-                if(square.id.endsWith('2')||square.id.endsWith('1')||square.id.endsWith('3')||square.id.endsWith('4')){
+                if(square.id.endsWith('2')||square.id.endsWith('1')||square.id.endsWith('3')||square.id.endsWith('4')||playerMap[square.id]===1||playerMap[square.id-1]===1||playerMap[square.id-2]===2||playerMap[square.id-3]===1||playerMap[square.id-4]===1){
                     $(square).css('background-color','red')
                 } else {
                     for (let i=0;i<5;i++) {
@@ -633,51 +688,121 @@ $('.square').hover(function(evt){
                         $('#'+shipLength).css('background-color','darkgrey')
                     }
                 }
-            }
-        }
-    }
-        }, function(evt){
-            if(numberOfShipsToPlace>0){
-                let square = evt.target
-                $(square).css('background-color','blue')
-                markPlayerGrid()
-                if(currentShipClicked==="ship2"){
-                    let shipLength = square.id - 1;
-                    $('#'+shipLength).css('background-color','blue')
-                    markPlayerGrid()
-                } else if(currentShipClicked==="ship3"){
-                    for(let i=0; i<3; i++){
+            } else if(currentShipClicked==="verticalShip2"){
+                if(square.id<11||playerMap[square.id]===1||playerMap[square.id-10]===1){
+                    $(square).css('background-color','red')
+                } else {
+                    let shipLength = square.id - 10;
+                    $('#'+shipLength).css('background-color','darkgrey')
+                }
+            } else if(currentShipClicked==="verticalShip3"){
+                if(square.id<21||playerMap[square.id]===1||playerMap[square.id-10]===1||playerMap[square.id-20]===1){
+                    $(square).css('background-color','red')
+                } else {
+                    for (let i=0;i<21;i+=10) {
                         let shipLength = square.id - i;
-                        $('#'+shipLength).css('background-color','blue')
-                        markPlayerGrid()
+                        $('#'+shipLength).css('background-color','darkgrey')
                     }
-                } else if(currentShipClicked==="secondShip3"){
-                    for(let i=0; i<3; i++){
+                }
+            } else if(currentShipClicked==="verticalSecondShip3"){
+                if(square.id<21||playerMap[square.id]===1||playerMap[square.id-10]===1||playerMap[square.id-20]===1){
+                    $(square).css('background-color','red')
+                } else {
+                    for (let i=0;i<21;i+=10) {
                         let shipLength = square.id - i;
-                        $('#'+shipLength).css('background-color','blue')
-                        markPlayerGrid()
+                        $('#'+shipLength).css('background-color','darkgrey')
                     }
-                } else if(currentShipClicked==="ship4"){
-                    for(let i=0; i<4; i++){
+                }
+            } else if(currentShipClicked==="verticalShip4"){
+                if(square.id<31||playerMap[square.id]===1||playerMap[square.id-10]===1||playerMap[square.id-20]===1||playerMap[square.id-30]===1){
+                    $(square).css('background-color','red')
+                } else {
+                    for (let i=0;i<31;i+=10) {
                         let shipLength = square.id - i;
-                        $('#'+shipLength).css('background-color','blue')
-                        markPlayerGrid()
+                        $('#'+shipLength).css('background-color','darkgrey')
                     }
-                } else if(currentShipClicked==="ship5"){
-                    for(let i=0; i<5; i++){
+                }
+            } else if(currentShipClicked==="verticalShip5"){
+                if(square.id<41||square.id.endsWith('4')||playerMap[square.id]===1||playerMap[square.id-10]===1||playerMap[square.id-20]===2||playerMap[square.id-30]===1||playerMap[square.id-40]===1){
+                    $(square).css('background-color','red')
+                } else {
+                    for (let i=0;i<41;i+=10) {
                         let shipLength = square.id - i;
-                        $('#'+shipLength).css('background-color','blue')
-                        markPlayerGrid()
+                        $('#'+shipLength).css('background-color','darkgrey')
                     }
                 }
             }
         }
-)
+    }
+}, function(evt){
+    if(numberOfShipsToPlace>0){
+        let square = evt.target
+        $(square).css('background-color','blue')
+        markPlayerGrid()
+        if(currentShipClicked==="ship2"){
+            let shipLength = square.id - 1;
+            $('#'+shipLength).css('background-color','blue')
+            markPlayerGrid()
+        } else if(currentShipClicked==="ship3"){
+            for(let i=0; i<3; i++){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="secondShip3"){
+            for(let i=0; i<3; i++){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="ship4"){
+            for(let i=0; i<4; i++){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="ship5"){
+            for(let i=0; i<5; i++){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="verticalShip2"){
+            let shipLength = square.id - 10;
+            $('#'+shipLength).css('background-color','blue')
+            markPlayerGrid()
+        } else if(currentShipClicked==="verticalShip3"){
+            for(let i=0; i<21; i+=10){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="verticalSecondShip3"){
+            for(let i=0; i<21; i+=10){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="verticalShip4"){
+            for(let i=0; i<31; i+=10){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        } else if(currentShipClicked==="verticalShip5"){
+            for(let i=0; i<41; i+=10){
+                let shipLength = square.id - i;
+                $('#'+shipLength).css('background-color','blue')
+                markPlayerGrid()
+            }
+        }
+    }
+})
 $('.square').click(function(evt){
     if(holdingShip===true){
         if(currentShipClicked==="ship2"){
         //checking if ship will be out of bounds. if box id is 1 dont run 
-            if(!evt.target.id.endsWith('1')){
+            if(!evt.target.id.endsWith('1')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1){
                 playerMap[evt.target.id]=1;
                 playerMap[evt.target.id-1] =1;
                 holdingShip=false;
@@ -686,7 +811,7 @@ $('.square').click(function(evt){
                 allShipsPlaced();
             }
         } else if(currentShipClicked==='ship3'){
-            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')){
+            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1){
                 for(var i=0; i<3;i++){
                     playerMap[evt.target.id-i] =1;
                 }
@@ -696,7 +821,7 @@ $('.square').click(function(evt){
                 allShipsPlaced();
             }
         } else if(currentShipClicked==='secondShip3'){
-            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')){
+            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1){
                 for(var i=0; i<3;i++){
                     playerMap[evt.target.id-i] =1;
                 }
@@ -706,7 +831,7 @@ $('.square').click(function(evt){
                 allShipsPlaced();
             }
         } else if(currentShipClicked==='ship4'){
-            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')){
+            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1&&playerMap[evt.target.id-3]!==1){
                 for(var i=0; i<4;i++){
                     playerMap[evt.target.id-i] =1;
                 }
@@ -716,7 +841,7 @@ $('.square').click(function(evt){
                 allShipsPlaced();
             }
         } else if(currentShipClicked==='ship5'){
-            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&!evt.target.id.endsWith('4')){
+            if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&!evt.target.id.endsWith('4')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1&&playerMap[evt.target.id-3]!==1&&playerMap[evt.target.id-4]!==1){
                 for(var i=0; i<5;i++){
                     playerMap[evt.target.id-i] =1;
                 }
@@ -725,7 +850,57 @@ $('.square').click(function(evt){
                 numberOfShipsToPlace--;
                 allShipsPlaced();
             }
-        }   
+        } if(currentShipClicked==="ship2"){
+            //checking if ship will be out of bounds. if box id is 1 dont run 
+                if(!evt.target.id.endsWith('1')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1){
+                    playerMap[evt.target.id]=1;
+                    playerMap[evt.target.id-1] =1;
+                    holdingShip=false;
+                    markPlayerGrid();
+                    numberOfShipsToPlace--;
+                    allShipsPlaced();
+                }
+            } else if(currentShipClicked==='ship3'){
+                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1){
+                    for(var i=0; i<3;i++){
+                        playerMap[evt.target.id-i] =1;
+                    }
+                    holdingShip=false;
+                    markPlayerGrid();
+                    numberOfShipsToPlace--;
+                    allShipsPlaced();
+                }
+            } else if(currentShipClicked==='secondShip3'){
+                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1){
+                    for(var i=0; i<3;i++){
+                        playerMap[evt.target.id-i] =1;
+                    }
+                    holdingShip=false;
+                    markPlayerGrid();
+                    numberOfShipsToPlace--;
+                    allShipsPlaced();
+                }
+            } else if(currentShipClicked==='ship4'){
+                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1&&playerMap[evt.target.id-3]!==1){
+                    for(var i=0; i<4;i++){
+                        playerMap[evt.target.id-i] =1;
+                    }
+                    holdingShip=false;
+                    markPlayerGrid();
+                    numberOfShipsToPlace--;
+                    allShipsPlaced();
+                }
+            } else if(currentShipClicked==='ship5'){
+                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&!evt.target.id.endsWith('4')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1&&playerMap[evt.target.id-3]!==1&&playerMap[evt.target.id-4]!==1){
+                    for(var i=0; i<5;i++){
+                        playerMap[evt.target.id-i] =1;
+                    }
+                    holdingShip=false;
+                    markPlayerGrid();
+                    numberOfShipsToPlace--;
+                    allShipsPlaced();
+                }
+            }   
     } else if(attackPhase===true&&playerTurn===true){
         let box = evt.target.id;
         if(computerMap[box]!==6){
