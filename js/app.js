@@ -11,12 +11,6 @@ let playerTurn = true;
 let computerShipPartsHit = 0;
 let playerShipPartsHit = 0;
 let computerTry = 0;
-let ship2Horizontal = true;
-let ship3Horizontal = true;
-let secondShip3Horizontal = true;
-let ship4Horizontal = true;
-let ship5Horizontal = true;
-
 // start game    -------------------------------------------------------
 startButtonText();
 buildGrid("#mainGrid");
@@ -69,8 +63,6 @@ function createShip(num){
         $('#'+ship).css("visibility", "hidden");
         currentShipClicked = ship;
         holdingShip = true;
-        console.log(currentShipClicked)
-
     })
     $('.verticalShip').click(function(evt){
         let ship = $(evt.target).parents(".verticalShip").attr("id");
@@ -88,7 +80,6 @@ function createShip(num){
         $('#'+ship).css("visibility", "hidden");
         currentShipClicked = ship;
         holdingShip = true;
-        console.log(currentShipClicked)
     })
 }
 function createSecond3LongShip(){
@@ -246,7 +237,6 @@ function computerTurn(){
     playerTurn=true;
 }
 function computerTurnAgain(computerGuess){
-    console.log('going again')
     if(attackPhase==true){
         if(computerGuess===1){
             if(computerTry===2){
@@ -613,7 +603,7 @@ function computerTurnAgain(computerGuess){
             }
         }
     } else {
-        console.log("outta here");
+        return
     }
 }
 function compHit(computerGuess){
@@ -627,11 +617,8 @@ function compMiss(computerGuess){
     $('#playerGrid #'+computerGuess).text('X');
     playerMap[computerGuess]=6;
 }
-//text here ------------------------------------------------------------
-
 //events -------------------------------------------------------
 $('.startGame').click(function(evt){
-    console.log('clicked start game');
     toggleChooseShip();
     placeShipsText();
     createShip(2);
@@ -680,7 +667,7 @@ $('.square').hover(function(evt){
                     }
                 }
             } else if(currentShipClicked==="ship5"){
-                if(square.id.endsWith('2')||square.id.endsWith('1')||square.id.endsWith('3')||square.id.endsWith('4')||playerMap[square.id]===1||playerMap[square.id-1]===1||playerMap[square.id-2]===2||playerMap[square.id-3]===1||playerMap[square.id-4]===1){
+                if(square.id.endsWith('2')||square.id.endsWith('1')||square.id.endsWith('3')||square.id.endsWith('4')||playerMap[square.id]===1||playerMap[square.id-1]===1||playerMap[square.id-2]===1||playerMap[square.id-3]===1||playerMap[square.id-4]===1){
                     $(square).css('background-color','red')
                 } else {
                     for (let i=0;i<5;i++) {
@@ -723,7 +710,7 @@ $('.square').hover(function(evt){
                     }
                 }
             } else if(currentShipClicked==="verticalShip5"){
-                if(square.id<41||square.id.endsWith('4')||playerMap[square.id]===1||playerMap[square.id-10]===1||playerMap[square.id-20]===2||playerMap[square.id-30]===1||playerMap[square.id-40]===1){
+                if(square.id<41||playerMap[square.id]===1||playerMap[square.id-10]===1||playerMap[square.id-20]===1||playerMap[square.id-30]===1||playerMap[square.id-40]===1){
                     $(square).css('background-color','red')
                 } else {
                     for (let i=0;i<41;i+=10) {
@@ -850,19 +837,19 @@ $('.square').click(function(evt){
                 numberOfShipsToPlace--;
                 allShipsPlaced();
             }
-        } if(currentShipClicked==="ship2"){
+        } if(currentShipClicked==="verticalShip2"){
             //checking if ship will be out of bounds. if box id is 1 dont run 
-                if(!evt.target.id.endsWith('1')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1){
+                if(!evt.target.id<11&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-10]!==1){
                     playerMap[evt.target.id]=1;
-                    playerMap[evt.target.id-1] =1;
+                    playerMap[evt.target.id-10] =1;
                     holdingShip=false;
                     markPlayerGrid();
                     numberOfShipsToPlace--;
                     allShipsPlaced();
                 }
-            } else if(currentShipClicked==='ship3'){
-                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1){
-                    for(var i=0; i<3;i++){
+            } else if(currentShipClicked==='verticalShip3'){
+                if(!evt.target.id<21&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-10]!==1&&playerMap[evt.target.id-20]!==1){
+                    for(var i=0; i<21;i+=10){
                         playerMap[evt.target.id-i] =1;
                     }
                     holdingShip=false;
@@ -870,9 +857,9 @@ $('.square').click(function(evt){
                     numberOfShipsToPlace--;
                     allShipsPlaced();
                 }
-            } else if(currentShipClicked==='secondShip3'){
-                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1){
-                    for(var i=0; i<3;i++){
+            } else if(currentShipClicked==='verticalSecondShip3'){
+                if(!evt.target.id<21&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-10]!==1&&playerMap[evt.target.id-20]!==1){
+                    for(var i=0; i<21;i+=10){
                         playerMap[evt.target.id-i] =1;
                     }
                     holdingShip=false;
@@ -880,9 +867,9 @@ $('.square').click(function(evt){
                     numberOfShipsToPlace--;
                     allShipsPlaced();
                 }
-            } else if(currentShipClicked==='ship4'){
-                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1&&playerMap[evt.target.id-3]!==1){
-                    for(var i=0; i<4;i++){
+            } else if(currentShipClicked==='verticalShip4'){
+                if(!evt.target.id<31&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-10]!==1&&playerMap[evt.target.id-20]!==1&&playerMap[evt.target.id-30]!==1){
+                    for(var i=0; i<31;i+=10){
                         playerMap[evt.target.id-i] =1;
                     }
                     holdingShip=false;
@@ -890,9 +877,9 @@ $('.square').click(function(evt){
                     numberOfShipsToPlace--;
                     allShipsPlaced();
                 }
-            } else if(currentShipClicked==='ship5'){
-                if(!evt.target.id.endsWith('1')&&!evt.target.id.endsWith('2')&&!evt.target.id.endsWith('3')&&!evt.target.id.endsWith('4')&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-1]!==1&&playerMap[evt.target.id-2]!==1&&playerMap[evt.target.id-3]!==1&&playerMap[evt.target.id-4]!==1){
-                    for(var i=0; i<5;i++){
+            } else if(currentShipClicked==='verticalShip5'){
+                if(!evt.target.id<41&&playerMap[evt.target.id]!==1&&playerMap[evt.target.id-10]!==1&&playerMap[evt.target.id-20]!==1&&playerMap[evt.target.id-30]!==1&&playerMap[evt.target.id-40]!==1){
+                    for(var i=0; i<41;i+=10){
                         playerMap[evt.target.id-i] =1;
                     }
                     holdingShip=false;
@@ -903,7 +890,9 @@ $('.square').click(function(evt){
             }   
     } else if(attackPhase===true&&playerTurn===true){
         let box = evt.target.id;
-        if(computerMap[box]!==6){
+        if(computerMap[box]===6){
+            return
+        } else if(computerMap[box]!==6){
             if(computerMap[box]===1){
                 $('#'+box).css('background-color', 'red');
                 computerShipPartsHit++;
@@ -912,6 +901,8 @@ $('.square').click(function(evt){
             } else {
                 $('#'+box).css('background-color', 'lightgrey');
                 playerTurn=false;
+                computerMap[box]=6;
+                $('#'+box).text('X').css('text-align','center').css('font-size','35px');
                 computerTurn();
             }
         }
