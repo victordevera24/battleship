@@ -49,8 +49,6 @@ h1{
 }
 #chooseShip{
     display: flex;
-    /* width: 900px; */
-    /* height: 150px; */
     margin-top: 10px;
     margin: auto;
 }
@@ -62,7 +60,7 @@ h1{
     padding: 3px 0px 3px 3px;
 }
 .verticalShip{
-    margin: auto;
+    margin: -17px auto;
     background-color: darkgrey;
     padding: 3px 0px 3px 3px;
 }
@@ -106,6 +104,6 @@ h1{
     margin-bottom: 3px;
 }
 .eachShip{
-    margin: auto;
+    margin: 0px auto;
     text-align: center;
 }
