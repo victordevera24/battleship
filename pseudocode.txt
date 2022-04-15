@@ -1,0 +1,27 @@
+Needs a 10x10 div grid
+Each div can have an id representing coordinates 
+
+Needs what ships players can place
+
+Player picks what ship to place
+
+Player can turn ship 90 degrees
+
+Depending what ship player is placing, allow or dont allow ship to be placed there based on if part of ship will be out of bounds
+Using hover event to change colors of grid to show where the ship will be placed
+This needs a 10x10 array or object to save where ship is placed 
+
+Have ready to play button after all ships placed/ push button
+change dom to an empty 10x10 div grid 
+Randomly place ships for computer 
+Show players ships on smaller grid on the right side on the screen
+
+Player clicks div box
+Compare div id coordinates. Mark the matching coordinate in compShip array/object
+Check if hits. If hit, let player pick again, no hit comp turn
+
+Computer picks box randomly
+Compare coordinates to playerShip array/object
+If hit. Comp go again. Will pick only north south east west of last hit. If hit again will continue in that direction
+
+When all ships are sunk end game 
