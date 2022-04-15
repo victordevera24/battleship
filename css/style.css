@@ -58,6 +58,7 @@ p {
     display: flex;
     margin-top: 10px;
     margin: auto;
+    max-width: 1000px;
 }
 .ship{
     margin: auto;
