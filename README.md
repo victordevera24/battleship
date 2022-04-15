@@ -5,6 +5,7 @@
 ### Launch deployed game: [Here](https://battleshipvdv.netlify.app)
 
 ![placement](/images/placement.jpeg)
+
 ![gameplay](/images/gameplay.jpeg)
 
 ### Assests used:
