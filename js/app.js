@@ -33,10 +33,10 @@ function toggleChooseShip(){
     $('#chooseShip').toggle();
 }
 function startButtonText(){
-    $('#text').html("<button class='startGame'>Start Game</button>");
+    $('#text').html("<button class='startGame btn btn-secondary'>Start Game</button>");
 }
 function placeShipsText(){
-    $('#text').text("Place ships").css('font-size','20px');
+    $('#text').text("Place ships").css('font-size','20px').css('font-family',"'Press Start 2P', cursive");
 }
 function createShip(num){
     let newShip = `<div id="afterThis${num}"class='eachShip'><div id="ship${num}" class="ship ${num} ship${num}"></div><p>or</p><div id="verticalShip${num}" class="verticalShip vertical${num} verticalShip${num}"></div></div>`;
@@ -214,13 +214,13 @@ function randomComputerShips(){
 }
 function checkIfWinner(){
     if(computerShipPartsHit===17){
-        $('#text').text('Winner! You defeated Skynet! 🎉').css('font-size','35px').css('color','blue')
+        $('#text').text('Winner! You defeated Skynet!').css('font-size','35px').css('color','blue').css('font-family',"'Press Start 2P', cursive")
         attackPhase=false;
     }
 }
 function checkIfCompWinner(){
     if(playerShipPartsHit===17){
-        $('#text').text('You should of gone for the head. 🫰').css('font-size','35px').css('color','red')
+        $('#text').text('You should of gone for the head.').css('font-size','35px').css('color','red').css('font-family',"'Press Start 2P', cursive")
         attackPhase=false;
     }
 }
@@ -627,7 +627,7 @@ function compHit(computerGuess){
 }
 function compMiss(computerGuess){
     $('#playerGrid #'+computerGuess).css('background-color','pink');
-    $('#playerGrid #'+computerGuess).text('X');
+    $('#playerGrid #'+computerGuess).text('X').css('font-family',"'Press Start 2P', cursive");
     playerMap[computerGuess]=6;
 }
 //events -------------------------------------------------------
@@ -915,7 +915,7 @@ $('.square').click(function(evt){
                 $('#'+box).css('background-color', 'lightgrey');
                 playerTurn=false;
                 computerMap[box]=6;
-                $('#'+box).text('X').css('text-align','center').css('font-size','35px');
+                $('#'+box).text('x').css('text-align','center').css('font-size','35px').css('font-family',"'Press Start 2P', cursive");
                 computerTurn();
             }
         }

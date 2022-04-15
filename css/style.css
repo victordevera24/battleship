@@ -4,6 +4,7 @@ body{
 h1{
     text-align: center;
     margin-bottom: 40px;
+    font-family: 'Press Start 2P', cursive;
 }
 .playArea{
     width: 100%;
@@ -46,6 +47,12 @@ h1{
 #text{
     text-align: center;
     margin-top: 30px;
+}
+.startGame{
+    font-family: 'Press Start 2P', cursive;
+}
+p {
+    font-family: 'Press Start 2P', cursive;
 }
 #chooseShip{
     display: flex;
