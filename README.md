@@ -1,4 +1,5 @@
 # Battleship
+Built with HTML, CSS, and JavaScript
 
 ## Classic turn based strategy game. Hide your ships. Skynet is coming for you. 
 
