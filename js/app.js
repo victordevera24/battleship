@@ -627,7 +627,7 @@ function compHit(computerGuess){
 }
 function compMiss(computerGuess){
     $('#playerGrid #'+computerGuess).css('background-color','pink');
-    $('#playerGrid #'+computerGuess).text('X').css('font-family',"'Press Start 2P', cursive");
+    $('#playerGrid #'+computerGuess).text('x').css('font-family',"'Press Start 2P', cursive");
     playerMap[computerGuess]=6;
 }
 //events -------------------------------------------------------
