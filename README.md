@@ -19,7 +19,7 @@
 
 ### Future Planned Enhancements:
 * Slow down computer hit/miss dom manipulation
-* Make computer understand where it has hit and choose a square adjacent 
+* Make computer understand where it has hit and choose an adjacent square 
 * Add enemy ships remaining
 * Make cool designs and animations
 * Add sounds 
